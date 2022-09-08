@@ -9,6 +9,8 @@ import { ethers } from 'ethers';
 import { currency } from '../contants';
 import CountdownTimer from '../components/CountdownTimer';
 import toast from "react-hot-toast"
+import Marquee from 'react-fast-marquee';
+import AdminControls from '../components/AdminControls';
 
 
 const Home: NextPage = () => {
@@ -25,11 +27,17 @@ const Home: NextPage = () => {
   const { mutateAsync: BuyTickets } = useContractCall(contract, "BuyTickets")
   const { data:winnings } = useContractData(contract, "getWinningsForAddress", address)
   const { mutateAsync: WithdrawWinnings } = useContractCall(contract, "WithdrawWinnings")
+  const { data:lastWinner } = useContractData(contract, "lastWinner")
+  const { data:lastWinnerAmount } = useContractData(contract, "lastWinnerAmount")
+  const { data:islotteryOperator } = useContractData(contract, "lotteryOperator")
+
 
   const onWithdraWinnings = async() => {
     const notification = toast.loading("Withdrawing winnings...")
     try {
       const data = await WithdrawWinnings([{}])
+      toast.success("Winnings withdraw successfully!",{id:notification,});
+
     } catch (err) {
       toast.error("Whoops something went wrong!", {
         id: notification,
@@ -80,6 +88,18 @@ const Home: NextPage = () => {
 
       <div className='flex-1'>
         <Header />
+        <Marquee className='bg-[#0A1F1C]' gradient={false} speed={100}>
+          <div className='flex space-x-2 mx-10'>
+            <h4 className='text-white font-bold'>Last Winner: {lastWinner?.toString()}</h4>
+            <h4 className='text-white font-bold'>Previous winnings: {ethers.utils.formatEther(lastWinnerAmount.toString())}{""}{currency}</h4>
+          </div>
+        </Marquee>
+
+        {islotteryOperator === address && (
+          <div className="flex justify-center">
+              <AdminControls />
+          </div>
+        )}
 
          {winnings > 0 && (
           <div className='max-w-md mb:max-w-2xl lg:max-w-4xl mx-auto mt-5'>
