@@ -91,7 +91,7 @@ const Home: NextPage = () => {
         <Marquee className='bg-[#0A1F1C]' gradient={false} speed={100}>
           <div className='flex space-x-2 mx-10'>
             <h4 className='text-white font-bold'>Last Winner: {lastWinner?.toString()}</h4>
-            <h4 className='text-white font-bold'>Previous winnings: {ethers.utils.formatEther(lastWinnerAmount.toString())}{""}{currency}</h4>
+            {/* <h4 className='text-white font-bold'>Previous winnings: {ethers.utils.formatEther(lastWinnerAmount.toString())}{""}{currency}</h4> */}
           </div>
         </Marquee>
 
