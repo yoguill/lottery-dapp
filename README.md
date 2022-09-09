@@ -1,6 +1,7 @@
 # Demo Project MUMBAI testnet
 https://lottery-dapp-bc714.web.app/
 
+https://www.youtube.com/watch?v=oNlhptQmChc&t=5243s
 
 # Next.js + Tailwind CSS Example
 
